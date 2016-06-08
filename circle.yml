@@ -1,0 +1,32 @@
+machine:
+    pre:
+      - curl -sSL https://s3.amazonaws.com/circle-downloads/install-circleci-docker.sh | bash -s -- 1.10.0
+    services:
+        - docker
+
+dependencies:
+    override:
+        # Setup Docker
+        - echo "{\"https://index.docker.io/v1/\":{\"auth\":\"$DOCKER_AUTH\",\"email\":\"$DOCKER_EMAIL\"}}" > ~/.dockercfg
+
+        # Build containers
+        - docker build -t sjevs/node .
+        - docker build -t sjevs/node:4 --build-arg NODE_MAJOR_VERSION=4 .
+        - docker build -t sjevs/node:5 --build-arg NODE_MAJOR_VERSION=5 .
+        - docker build -t sjevs/node:6 --build-arg NODE_MAJOR_VERSION=6 .
+
+test:
+    override:
+        - ./test/runTests.sh sjevs/node
+        - ./test/runTests.sh sjevs/node:4
+        - ./test/runTests.sh sjevs/node:5
+        - ./test/runTests.sh sjevs/node:6
+
+deployment:
+    docker:
+        branch: ["master"]
+        commands:
+            - docker push sjevs/node
+            - docker push sjevs/node:4
+            - docker push sjevs/node:5
+            - docker push sjevs/node:6
