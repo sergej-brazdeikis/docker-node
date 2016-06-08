@@ -7,6 +7,8 @@ This Docker image contains `node` and `npm`. It is based on [Debian from Google]
 * Non-root execution
 * boosted via shared `.npm` folder - actually just at tip here ;)
 * Minimal size [Latest build](https://hub.docker.com/r/sjevs/node/tags/) is `138 MB`. [Official node](https://hub.docker.com/r/library/node/tags/) - `190 MB`
+* Works with node-sass without any problems.
+* **Has functional tests**
 
 ## Usage
 
