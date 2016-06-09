@@ -1,6 +1,8 @@
 FROM google/debian:wheezy
 ARG NODE_MAJOR_VERSION=6
 
+MAINTAINER Sergej Jevsejev <sjevsejev@gmail.com>
+
 RUN apt-get update && \
     apt-get install -y git ssh-client curl adduser build-essential && \
 
